@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SYSTEM TAKEOVER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    overflow: hidden;
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(0); }
+    25% { transform: translate(4px, -4px); }
+    50% { transform: translate(-4px, 4px); }
+    75% { transform: translate(4px, 4px); }
+    100% { transform: translate(-4px, -4px); }
+}
+
+.flash {
+    position: fixed;
+    inset: 0;
+    background: rgba(255,0,0,0.15);
+    animation: flash 0.25s infinite;
+    z-index: 1;
+}
+
+@keyframes flash {
+    0%,100% { opacity: 0.1; }
+    50% { opacity: 0.5; }
+}
+
+.warning {
+    position: absolute;
+    top: 5%;
+    width: 100%;
+    text-align: center;
+    color: red;
+    font-size: 2.4em;
+    letter-spacing: 5px;
+    animation: flicker 0.07s infinite;
+    z-index: 4;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+.giphy-text {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    font-size: 3em;
+    color: red;
+    text-shadow: 0 0 10px #ff0000;
+    animation: glitch-text 0.08s infinite;
+    z-index: 6;
+}
+
+@keyframes glitch-text {
+    0% { transform: translate(0,0) skew(0deg); opacity: 1; }
+    25% { transform: translate(-3px,2px) skew(5deg); opacity: 0.8; }
+    50% { transform: translate(3px,-2px) skew(-5deg); opacity: 1; }
+    75% { transform: translate(-2px,1px) skew(3deg); opacity: 0.9; }
+    100% { transform: translate(0,0) skew(0deg); opacity: 1; }
+}
+
+.glitch-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    transform: translate(-50%, -50%);
+    filter: contrast(1.8) saturate(2) hue-rotate(15deg);
+    animation: glitch 0.08s infinite;
+    z-index: 5;
+}
+
+@keyframes glitch {
+    0% { transform: translate(-50%, -50%) skew(0deg); }
+    50% { transform: translate(-48%, -52%) skew(4deg); }
+    100% { transform: translate(-50%, -50%) skew(-4deg); }
+}
+
+.logs {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 35%;
+    font-size: 1em;
+    z-index: 4;
+}
+
+.logs p {
+    margin: 0;
+    padding-left: 12px;
+    white-space: nowrap;
+}
+
+.click {
+    position: fixed;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+    opacity: 0.5;
+    z-index: 6;
+}
+</style>
+</head>
+<body>
+
+<div class="warning">⚠ SYSTEM OVERRIDDEN ⚠</div>
+
+<!-- YOUR CENTERED MOVING GIF -->
+<img src="https://i.ibb.co/wryWWYYX/fblite-video-ezgif-com-optimize.gif" class="glitch-img" alt="HACKED">
+
+<!-- GLITCHY TEXT OVER GIF -->
+<div class="giphy-text">PUTANGINAMO TRINITY</div>
+
+<div class="flash"></div>
+
+<div class="logs" id="logs"></div>
+
+<div class="click">CLICK TO STABILIZE SYSTEM</div>
+
+<script>
+/* FAKE TERMINAL LOGS */
+const logs = document.getElementById("logs");
+const messages = [
+  "[ERROR] Kernel panic",
+  "[ACCESS] ROOT GRANTED",
+  "[W] Executing malicious thread",
+  "[WARNING] Webcam streaming",
+  "[DATA] Uploading files",
+  "[FAIL] User blocked 🖕",
+  "[W] W W W W W W W",
+  "[CRITICAL] Firewall disabled",
+  "[TRACE] IP logged"
+];
+
+setInterval(() => {
+    const p = document.createElement("p");
+    p.textContent = messages[Math.floor(Math.random() * messages.length)];
+    logs.appendChild(p);
+    if (logs.children.length > 25) logs.removeChild(logs.firstChild);
+}, 220);
+
+/* ANNOYING W SOUND */
+let started = false;
+document.body.addEventListener("click", () => {
+    if (started) return;
+    started = true;
+
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    setInterval(() => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = "square";
+        osc.frequency.value = 150;
+        gain.gain.value = 0.9;
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start();
+        osc.stop(ctx.currentTime + 0.1);
+    }, 200);
+});
+</script>
+
+</body>
+</html>
